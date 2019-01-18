@@ -8,22 +8,50 @@
 
 /* Begin PBXBuildFile section */
 		EC35ED9321F22AF800CE1205 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35ED9221F22AF800CE1205 /* AppDelegate.swift */; };
-		EC35ED9521F22AF800CE1205 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35ED9421F22AF800CE1205 /* ViewController.swift */; };
 		EC35ED9821F22AF800CE1205 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC35ED9621F22AF800CE1205 /* Main.storyboard */; };
 		EC35ED9B21F22AF800CE1205 /* RemindMeApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC35ED9921F22AF800CE1205 /* RemindMeApp.xcdatamodeld */; };
 		EC35ED9D21F22B1900CE1205 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC35ED9C21F22B1900CE1205 /* Assets.xcassets */; };
 		EC35EDA021F22B1900CE1205 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC35ED9E21F22B1900CE1205 /* LaunchScreen.storyboard */; };
+		EC35EDA821F22B8100CE1205 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35EDA721F22B8100CE1205 /* ViewController.swift */; };
+		EC35EDAA21F25B6B00CE1205 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35EDA921F25B6B00CE1205 /* TableViewController.swift */; };
+		EC35EDAC21F25B9B00CE1205 /* rappel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35EDAB21F25B9B00CE1205 /* rappel.swift */; };
+		EC35EDAE21F25F4600CE1205 /* RequeteSQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC35EDAD21F25F4500CE1205 /* RequeteSQL.swift */; };
+		EC35EDBA21F264DD00CE1205 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC35EDB921F264DD00CE1205 /* libsqlite3.tbd */; };
+		EC35EDBE21F2650600CE1205 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC35EDB021F2612800CE1205 /* SQLite.framework */; };
+		EC35EDBF21F2650600CE1205 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC35EDB021F2612800CE1205 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EC35EDC021F2650600CE1205 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EC35EDBF21F2650600CE1205 /* SQLite.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		EC35ED8F21F22AF800CE1205 /* RemindMeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindMeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC35ED9221F22AF800CE1205 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EC35ED9421F22AF800CE1205 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EC35ED9721F22AF800CE1205 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC35ED9A21F22AF800CE1205 /* RemindMeApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RemindMeApp.xcdatamodel; sourceTree = "<group>"; };
 		EC35ED9C21F22B1900CE1205 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC35ED9F21F22B1900CE1205 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC35EDA121F22B1900CE1205 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC35EDA721F22B8100CE1205 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EC35EDA921F25B6B00CE1205 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		EC35EDAB21F25B9B00CE1205 /* rappel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rappel.swift; sourceTree = "<group>"; };
+		EC35EDAD21F25F4500CE1205 /* RequeteSQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequeteSQL.swift; sourceTree = "<group>"; };
+		EC35EDB021F2612800CE1205 /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC35EDB221F2612800CE1205 /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC35EDB421F2612800CE1205 /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC35EDB621F2612800CE1205 /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC35EDB921F264DD00CE1205 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC35EDBE21F2650600CE1205 /* SQLite.framework in Frameworks */,
+				EC35EDBA21F264DD00CE1205 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +72,7 @@
 			children = (
 				EC35ED9121F22AF800CE1205 /* RemindMeApp */,
 				EC35ED9021F22AF800CE1205 /* Products */,
+				EC35EDAF21F2612800CE1205 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,8 +87,11 @@
 		EC35ED9121F22AF800CE1205 /* RemindMeApp */ = {
 			isa = PBXGroup;
 			children = (
+				EC35EDAD21F25F4500CE1205 /* RequeteSQL.swift */,
+				EC35EDA721F22B8100CE1205 /* ViewController.swift */,
 				EC35ED9221F22AF800CE1205 /* AppDelegate.swift */,
-				EC35ED9421F22AF800CE1205 /* ViewController.swift */,
+				EC35EDAB21F25B9B00CE1205 /* rappel.swift */,
+				EC35EDA921F25B6B00CE1205 /* TableViewController.swift */,
 				EC35ED9621F22AF800CE1205 /* Main.storyboard */,
 				EC35ED9C21F22B1900CE1205 /* Assets.xcassets */,
 				EC35ED9E21F22B1900CE1205 /* LaunchScreen.storyboard */,
@@ -65,6 +99,18 @@
 				EC35ED9921F22AF800CE1205 /* RemindMeApp.xcdatamodeld */,
 			);
 			path = RemindMeApp;
+			sourceTree = "<group>";
+		};
+		EC35EDAF21F2612800CE1205 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EC35EDB921F264DD00CE1205 /* libsqlite3.tbd */,
+				EC35EDB021F2612800CE1205 /* SQLite.framework */,
+				EC35EDB221F2612800CE1205 /* SQLite.framework */,
+				EC35EDB421F2612800CE1205 /* SQLite.framework */,
+				EC35EDB621F2612800CE1205 /* SQLite.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,6 +123,7 @@
 				EC35ED8B21F22AF800CE1205 /* Sources */,
 				EC35ED8C21F22AF800CE1205 /* Frameworks */,
 				EC35ED8D21F22AF800CE1205 /* Resources */,
+				EC35EDC021F2650600CE1205 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -138,9 +185,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC35ED9521F22AF800CE1205 /* ViewController.swift in Sources */,
+				EC35EDA821F22B8100CE1205 /* ViewController.swift in Sources */,
 				EC35ED9B21F22AF800CE1205 /* RemindMeApp.xcdatamodeld in Sources */,
+				EC35EDAE21F25F4600CE1205 /* RequeteSQL.swift in Sources */,
 				EC35ED9321F22AF800CE1205 /* AppDelegate.swift in Sources */,
+				EC35EDAC21F25B9B00CE1205 /* rappel.swift in Sources */,
+				EC35EDAA21F25B6B00CE1205 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
