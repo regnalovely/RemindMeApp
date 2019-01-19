@@ -16,9 +16,17 @@ class Rappel {
     var time:String!
     var enable:Bool = false
     
-    init(id:Int, name:String, date:String, time:String){
+    init(){
+        id = Int()
+        nom = String()
+        audio = String()
+        date = String()
+        time = String()
+    }
+    
+    init(id:Int, nom:String, date:String, time:String){
         self.id = id
-        self.name = name
+        self.nom = nom
         self.date = date
         self.time = time
     }
@@ -32,7 +40,7 @@ class Rappel {
     }
     
     func getName() -> String {
-        return name
+        return nom
     }
     
     func getDate() -> String {
@@ -45,5 +53,17 @@ class Rappel {
     
     func getAudio() -> String {
         return audio
+    }
+    
+    func getState() -> Bool {
+        return enable
+    }
+    
+    func activer() {
+        enable = true
+    }
+    
+    func desactiver() {
+        enable = false
     }
 }

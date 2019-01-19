@@ -13,10 +13,13 @@ import AVFoundation
 
 class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDelegate {
     var date: Date!
+    var audio:String!
+    
     var sonEnregistre : AVAudioRecorder!
     var sonJouer : AVAudioPlayer!
     var recordingSession : AVAudioSession!
     var fileName : String = "AUD_" + NSUUID().uuidString + ".m4a"
+    let requeteSQL = RequeteSQL()
     
     @IBOutlet weak var saisieName: UITextField!
     @IBOutlet weak var enregistreBTN: UIButton!
@@ -29,10 +32,10 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         UNUserNotificationCenter.current().requestAuthorization(options: [[.alert, .sound, .badge]], completionHandler: {(granted, error) in
             //Handler Error
         })
-        // Do any additional setup after loading the view, typically from a nib.
-        timePicker.minimumDate = NSDate() as Date
+
         timePicker.locale = Locale(identifier: "FR_fr")
         recordingSession = AVAudioSession.sharedInstance()
+        
         
         do {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
@@ -53,10 +56,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
     
     
     func loadRecordingUI() {
-        enregistreBTN.setTitle("Tap to Record", for: .normal)
-        enregistreBTN.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+        enregistreBTN.setTitle("Enregistrer l'audio", for: .normal)
         enregistreBTN.addTarget(self, action: #selector(recordTapped), for: .touchUpInside)
-        view.addSubview(enregistreBTN)
     }
     
     func startRecording() {
@@ -74,7 +75,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
             sonEnregistre.delegate = self
             sonEnregistre.record()
             
-            enregistreBTN.setTitle("Tap to Stop", for: .normal)
+            enregistreBTN.setTitle("Stop", for: .normal)
         } catch {
             finishRecording(success: false)
         }
@@ -91,9 +92,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         sonEnregistre = nil
         
         if success {
-            enregistreBTN.setTitle("Tap to Re-record", for: .normal)
+            enregistreBTN.setTitle("Enregistrer à nouveau", for: .normal)
         } else {
-            enregistreBTN.setTitle("Tap to Record", for: .normal)
+            enregistreBTN.setTitle("Enregistrer l'audio", for: .normal)
             // recording failed :(
         }
     }
@@ -117,15 +118,26 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
     @IBAction func action(_ sender: Any) {
         date = timePicker.date
         
-        // build notification
-        let notification = UNMutableNotificationContent()
-        notification.title = "Rappel"
-        notification.body = "Rappel : \(saisieName.text!)!"
-        notification.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "reveil.m4a"))
-        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate as DateComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: "TestIdentifier", content: notification, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        // Création des chaines contenant la date et l'heure du rappel
+        let dateRappel = afficherDate(date: date, format: "dd/MM/yyyy")
+        let timeRappel = afficherDate(date: date, format: "HH:mm")
+        
+        //Création du rappel
+        let rappel = Rappel(id: 0, nom: saisieName.text!, date: dateRappel, time: timeRappel)
+        let reponse = requeteSQL.ajouterRappel(rappel: rappel)
+        
+        // Si la création dans la base est un succès alors on crée la notification
+        if reponse {
+            // build notification
+            let notification = UNMutableNotificationContent()
+            notification.title = "Rappel"
+            notification.body = "Rappel : \(saisieName.text!)!"
+            notification.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "reveil.m4a"))
+            let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate as DateComponents, repeats: true)
+            let request = UNNotificationRequest(identifier: "TestIdentifier", content: notification, trigger: trigger)
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
     }
     
     //Fonction pour affiche date correct
@@ -150,6 +162,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate, UITextFieldDele
         }
     }
     
+    // Permettre de masquer le clavier lorsqu'on ne souhaite plus faire de saisie dans le textField
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         saisieName.resignFirstResponder()
         return true

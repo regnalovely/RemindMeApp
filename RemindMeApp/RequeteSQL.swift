@@ -70,9 +70,9 @@ class RequeteSQL {
         }
     }
     
-    // Permet d'ajouter un stationnement
-    func ajouterStationnemnet(rappel:Rappel) {
-        // INSERT INTO Rappel VALUES ($nom, $latitude, $longitude, $date, $enable)
+    // Permet d'ajouter un rappel
+    func ajouterRappel(rappel:Rappel) -> Bool {
+        // INSERT INTO Rappel VALUES ($nom, $audio, $time, $date, $enable)
         let insert = self.tableRappel.insert(self.nom <- rappel.nom,
                                                self.audio <- rappel.audio,
                                                self.time <- rappel.time,
@@ -82,27 +82,27 @@ class RequeteSQL {
         do {
             try self.connect.run(insert)
             print("Le rappel a bien été ajouté.")
+            reloadTableView()
+            return true
         } catch {
             print(error)
+            return false
         }
-        
-        reloadTableView()
     }
     
-    // Permet de modifier un stationnement : Nom, Favoris, Enable
-    func modifierStationnement(stationnement:Rappel){
-        let id = stationnement.id
+    // Permet de modifier un rappel : Nom, Enable
+    func modifierRappel(rappel:Rappel){
+        let id = rappel.id
         
-        // UPDATE Rappel SET nom = $nom, favorite = $favorite, enable = $enable
+        // UPDATE Rappel SET nom = $nom, enable = $enable
             // WHERE id = $id
         let filter = self.tableRappel.filter(self.id == id!)
-        let update = filter.update(self.nom <- stationnement.nom,
-                      self.favorite <- stationnement.isFavorite,
-                      self.enable <- stationnement.enable)
+        let update = filter.update(self.nom <- rappel.nom,
+                      self.enable <- rappel.enable)
         
         do {
             try self.connect.run(update)
-            print("Le stationnement a bien été modifié.")
+            print("Le rappel a bien été modifié.")
         } catch {
             print(error)
         }
@@ -111,11 +111,11 @@ class RequeteSQL {
     }
     
     // Permet de supprimer un stationnement
-    func supprimerStationnement(stationnement:Rappel){
-        let id = stationnement.id
+    func supprimerRappel(rappel:Rappel){
+        let id = rappel.id
         do {
-            // DELETE FROM filter_table ( SELECT * FROM Stationnement WHERE id = $id )
-                // DELETE FROM Stationnement WHERE id = $i
+            // DELETE FROM filter_table ( SELECT * FROM Rappel WHERE id = $id )
+                // DELETE FROM Rappel WHERE id = $i
             let filter = self.tableRappel.filter(self.id == id!)
             let delete = filter.delete()
             try connect.run(delete)
@@ -123,21 +123,20 @@ class RequeteSQL {
             print(error)
         }
         reloadTableView()
-        reloadMapView(stationnement: stationnement)
     }
     
     // Retourne une liste de stationnements enregistrés
-    func getStationnements() -> [Rappel] {
+    func getRappels() -> [Rappel] {
         var liste = [Rappel]()
         
         do {
-            //SELECT * FROM Stationnement
+            //SELECT * FROM Rappel
             
-            let locations = try self.connect.prepare(tableRappel)
-            for location in locations {
-                let stationnement = createObjectStationnement(row: location)
-                printStationnement(stationnement: stationnement)
-                liste.append(stationnement)
+            let rappels = try self.connect.prepare(tableRappel)
+            for line_rappel in rappels {
+                let rappel = createObjectRappel(row: line_rappel)
+                printRappel(rappel: rappel)
+                liste.append(rappel)
             }
         } catch {
             print(error)
@@ -146,28 +145,27 @@ class RequeteSQL {
         return liste
     }
     
-    func getStationnement(id:Int) -> Rappel {
-        var stationnement = Stationnement()
+    func getRappel(id:Int) -> Rappel {
+        var rappel = Rappel()
         
         do {
-            // SELECT * FROM Stationnement WHERE id = $id
+            // SELECT * FROM Rappel WHERE id = $id
             let filter = self.tableRappel.filter(self.id == id)
             let select = try self.connect.prepare(filter)
             for row in select {
-                stationnement = createObjectStationnement(row: row)
-                //printStationnement(stationnement: stationnement)
+                rappel = createObjectRappel(row: row)
+                //printRappel(rappel: rappel)
             }
         } catch {
             print(error)
         }
         
-        return stationnement
+        return rappel
     }
     
-    // Création d'un objet Stationnement depuis une ligne de la table Stationnement
+    // Création d'un objet Rappel depuis une ligne de la table Rappel
         // de type Row (SQLite)
     func createObjectRappel(row:Row) -> Rappel {
-        let stationnement = Rappel()
         
         let id = row[self.id]
         let nom = row[self.nom]
@@ -176,42 +174,28 @@ class RequeteSQL {
         let date = row[self.date]
         let enable = row[self.enable]
         
-        stationnement.attribuerIdentifiant(id: id)
-        stationnement.attribuerNom(nom: nom)
-        stationnement.attribuerDate(date: date)
-        stationnement.attribuerCoordonnees(latitude: latitude, longitude: longitude)
-        
-        if(favorite){
-            stationnement.mettreFavoris()
-        } else {
-            stationnement.enleverFavoris()
-        }
+        let rappel = Rappel(id: id, nom: nom, date: date, time: time)
+        rappel.ajouterAudio(audio: audio)
         
         if(enable){
-            stationnement.activer()
+            rappel.activer()
         } else {
-            stationnement.desactiver()
+            rappel.desactiver()
         }
         
-        return stationnement
+        return rappel
     }
     
-    func printStationnement(stationnement:Rappel){
+    func printRappel(rappel:Rappel){
         print(" - - - - - - - - - -")
-        print("ID: \(String(describing: stationnement.id))")
-        print("NOM: \(String(describing: stationnement.nom))")
-        print("DATE: \(String(describing: stationnement.date))")
-        print("FAVORIS: \(stationnement.isFavorite)")
-        print("ACTIF: \(stationnement.enable)")
+        print("ID: \(String(describing: rappel.id))")
+        print("NOM: \(String(describing: rappel.nom))")
+        print("DATE: \(String(describing: rappel.date))")
+        print("ACTIF: \(rappel.enable)")
         print(" - - - - - - - - - -")
     }
     
     func reloadTableView(){
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTable"), object: nil)
-    }
-    
-    func reloadMapView(stationnement:Rappel){
-        let data = ["stationnement":stationnement]
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadMap"), object: nil, userInfo: data)
     }
 }
